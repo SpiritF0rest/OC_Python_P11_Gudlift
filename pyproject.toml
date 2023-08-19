@@ -1,0 +1,24 @@
+[tool.poetry]
+name = "gudlift"
+version = "0.1.0"
+description = "This is a proof of concept (POC) project to show a light-weight version of our competition booking platform"
+authors = ["Weidenthal Sandra <spiritf0rest@hotmail.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+Flask = "^2.3.2"
+Jinja2 = "^3.1.2"
+click = "^8.1.7"
+itsdangerous = "^2.1.2"
+MarkupSafe = "^2.1.3"
+Werkzeug = "^2.3.7"
+flake8-html = "^0.4.3"
+pytest = "^7.4.0"
+beautifulsoup4 = "^4.12.2"
+flake8 = "^6.1.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
