@@ -57,7 +57,7 @@ def book(competition, club):
         return render_template(template_name_or_list='welcome.html', club=found_club[0], competitions=competitions), 400
     else:
         return render_template(template_name_or_list='index.html',
-                               error="Sorry, you are not authorized to make this request "), 401
+                               error="Sorry, you are not authorized to make this request."), 401
 
 
 @app.route(rule='/purchasePlaces', methods=['POST'])
