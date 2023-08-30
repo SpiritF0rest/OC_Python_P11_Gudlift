@@ -1,4 +1,5 @@
 import json
+from datetime import datetime
 
 from flask import Flask, render_template, request, redirect, flash, url_for
 
@@ -36,18 +37,27 @@ def show_summary():
         return render_template(template_name_or_list='index.html', error="Sorry, that email wasn't found."), 401
 
 
-@app.route('/book/<competition>/<club>')
+@app.route(rule='/book/<competition>/<club>')
 def book(competition, club):
-    found_club = [c for c in clubs if c['name'] == club][0]
-    found_competition = [c for c in competitions if c['name'] == competition][0]
-    if found_club and found_competition:
+    found_club = [c for c in clubs if c['name'] == club]
+    found_competition = [c for c in competitions if c['name'] == competition]
+    if len(found_club) > 0 and len(found_competition) > 0:
+        today_date = datetime.now()
+        competition_date = datetime.strptime(found_competition[0]["date"], "%Y-%m-%d %H:%M:%S")
+        if competition_date < today_date:
+            flash("This competition is already over.")
+            return (render_template(template_name_or_list='welcome.html', club=found_club[0], competitions=competitions)
+                    , 400)
         return render_template(template_name_or_list='booking.html',
-                               club=found_club,
-                               competition=found_competition,
-                               total_places=int(found_competition["numberOfPlaces"]))
-    else:
+                               club=found_club[0],
+                               competition=found_competition[0],
+                               total_places=int(found_competition[0]["numberOfPlaces"]))
+    elif len(found_club) > 0 and len(found_competition) < 1:
         flash("Something went wrong-please try again")
-        return render_template(template_name_or_list='welcome.html', club=club, competitions=competitions)
+        return render_template(template_name_or_list='welcome.html', club=found_club[0], competitions=competitions), 400
+    else:
+        return render_template(template_name_or_list='index.html',
+                               error="Sorry, you are not authorized to make this request "), 401
 
 
 @app.route(rule='/purchasePlaces', methods=['POST'])
