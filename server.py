@@ -104,7 +104,9 @@ def purchase_places():
                                error="Sorry, you are not authorized to make this request."), 401
 
 
-# TODO: Add route for points display
+@app.route(rule='/clubs', methods=['GET'])
+def get_list_of_clubs():
+    return render_template(template_name_or_list='clubs.html', clubs=clubs)
 
 
 @app.route('/logout')
